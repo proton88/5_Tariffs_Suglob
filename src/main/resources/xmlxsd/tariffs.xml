@@ -1,0 +1,226 @@
+<tariffs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.example.org/tariffs"
+         xsi:schemaLocation="http://www.example.com/tariffs tariffs.xsd">
+    <callTariff operatorName="velcom">
+        <name>AllSpeaks</name>
+        <payroll>8.4</payroll>
+        <freeMinutes>100</freeMinutes>
+        <callPrices>
+            <insidePrice>0.05</insidePrice>
+            <outsidePrice>0.05</outsidePrice>
+            <stationaryPrice>0.05</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>12 seconds</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <internetTariff operatorName="velcom">
+        <name>PackageLight</name>
+        <payroll>1.5</payroll>
+        <traffic>100</traffic>
+        <priceUpperTraffic>0.006</priceUpperTraffic>
+    </internetTariff>
+
+    <internetTariff rounding="1">
+        <name>Package250</name>
+        <payroll>2.5</payroll>
+        <traffic>250</traffic>
+        <priceUpperTraffic>0.103</priceUpperTraffic>
+    </internetTariff>
+
+    <internetTariff rounding="1">
+        <name>Package1500</name>
+        <payroll>7.9</payroll>
+        <traffic>1500</traffic>
+        <priceUpperTraffic>0.03</priceUpperTraffic>
+    </internetTariff>
+
+    <internetTariff operatorName="life">
+        <name>Unlim8</name>
+        <payroll>7.9</payroll>
+        <traffic>8000</traffic>
+        <priceUpperTraffic>0</priceUpperTraffic>
+    </internetTariff>
+
+    <internetTariff operatorName="life" rounding="50">
+        <name>Unlim16</name>
+        <payroll>14.9</payroll>
+        <traffic>16</traffic>
+        <priceUpperTraffic>0</priceUpperTraffic>
+    </internetTariff>
+
+    <callTariff operatorName="life">
+        <name>M</name>
+        <payroll>7.7</payroll>
+        <freeMinutes>150</freeMinutes>
+        <callPrices>
+            <insidePrice>0.07</insidePrice>
+            <outsidePrice>0.07</outsidePrice>
+            <stationaryPrice>0.07</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>0</countFavoriteNumbers>
+            <tariffing>1 second</tariffing>
+            <startPayment>0</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff operatorName="life">
+        <name>XXL</name>
+        <payroll>27</payroll>
+        <freeMinutes>650</freeMinutes>
+        <callPrices>
+            <insidePrice>0.07</insidePrice>
+            <outsidePrice>0.07</outsidePrice>
+            <stationaryPrice>0.07</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>0</countFavoriteNumbers>
+            <tariffing>1 second</tariffing>
+            <startPayment>0</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>WordForWord</name>
+        <payroll>5.3</payroll>
+        <freeMinutes>0</freeMinutes>
+        <callPrices>
+            <insidePrice>0.05</insidePrice>
+            <outsidePrice>0.175</outsidePrice>
+            <stationaryPrice>0.175</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>0</countFavoriteNumbers>
+            <tariffing>12 seconds</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Pension</name>
+        <payroll>3.5</payroll>
+        <freeMinutes>0</freeMinutes>
+        <callPrices>
+            <insidePrice>0.05</insidePrice>
+            <outsidePrice>0.16</outsidePrice>
+            <stationaryPrice>0.16</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>12 seconds</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Social</name>
+        <payroll>1.5</payroll>
+        <freeMinutes>60</freeMinutes>
+        <callPrices>
+            <insidePrice>0.02</insidePrice>
+            <outsidePrice>0.085</outsidePrice>
+            <stationaryPrice>0.085</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>1</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Smart1</name>
+        <payroll>14.5</payroll>
+        <freeMinutes>600</freeMinutes>
+        <callPrices>
+            <insidePrice>0.02</insidePrice>
+            <outsidePrice>0.105</outsidePrice>
+            <stationaryPrice>0.105</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Smart2</name>
+        <payroll>25.5</payroll>
+        <freeMinutes>1500</freeMinutes>
+        <callPrices>
+            <insidePrice>0.01</insidePrice>
+            <outsidePrice>0.085</outsidePrice>
+            <stationaryPrice>0.085</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Smart3</name>
+        <payroll>19.9</payroll>
+        <freeMinutes>600</freeMinutes>
+        <callPrices>
+            <insidePrice>0.01</insidePrice>
+            <outsidePrice>0.085</outsidePrice>
+            <stationaryPrice>0.085</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>SmartPremiere</name>
+        <payroll>8.9</payroll>
+        <freeMinutes>300</freeMinutes>
+        <callPrices>
+            <insidePrice>0.03</insidePrice>
+            <outsidePrice>0.145</outsidePrice>
+            <stationaryPrice>0.145</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>5</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+    <callTariff>
+        <name>Comfort8</name>
+        <payroll>21.9</payroll>
+        <freeMinutes>400</freeMinutes>
+        <callPrices>
+            <insidePrice>0.01</insidePrice>
+            <outsidePrice>0.08</outsidePrice>
+            <stationaryPrice>0.08</stationaryPrice>
+        </callPrices>
+        <smsPrice>0.04</smsPrice>
+        <parameters>
+            <countFavoriteNumbers>0</countFavoriteNumbers>
+            <tariffing>1 minute</tariffing>
+            <startPayment>5</startPayment>
+        </parameters>
+    </callTariff>
+
+</tariffs>

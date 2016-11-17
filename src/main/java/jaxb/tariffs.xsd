@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.example.org/tariffs"
+    xmlns:tns="http://www.example.org/tariffs" elementFormDefault="qualified">
+
+    <element name="tariff" type="tns:Tariff" abstract="true"/>
+    <element name="callTariff" type="tns:CallTariff" substitutionGroup="tns:tariff"/>
+    <element name="internetTariff" type="tns:InternetTariff" substitutionGroup="tns:tariff"/>
+    
+    <element name="tariffs">
+        <complexType>
+            <sequence>
+                <element ref="tns:tariff" minOccurs="16" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Tariff">
+        <sequence>
+            <element name="name">
+                <simpleType>
+                    <restriction base="ID">
+                        <pattern value="[A-Z][\w]*"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="payroll" type="decimal"/>
+        </sequence>
+        <attribute name="operatorName" use="optional" default="velcom">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="velcom"/>
+                    <enumeration value="life"/>
+                    <enumeration value="mts"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+    </complexType>
+    
+    <complexType name="CallTariff">
+        <complexContent>
+            <extension base="tns:Tariff">
+                <sequence>
+                    <element name="freeMinutes" type="nonNegativeInteger"/>
+                    <element name="callPrices" type="tns:CallPrices"/>
+                    <element name="smsPrice" type="decimal"/>
+                    <element name="parameters" type="tns:Parameters"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    
+    <complexType name="InternetTariff">
+        <complexContent>
+            <extension base="tns:Tariff">
+                <sequence>
+                    <element name="traffic" type="positiveInteger"/>
+                    <element name="priceUpperTraffic" type="decimal"/>
+                </sequence>
+                <attribute name="rounding" use="optional" type="positiveInteger"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    
+    <complexType name="CallPrices">
+        <all>
+            <element name="insidePrice" type="decimal"/>
+            <element name="outsidePrice" type="decimal"/>
+            <element name="stationaryPrice" type="decimal"/>
+        </all>
+    </complexType>
+    
+    <complexType name="Parameters">
+        <sequence>
+            <element name="countFavoriteNumbers">
+                <simpleType>
+                    <restriction base="nonNegativeInteger">
+                        <pattern value="[0-9]"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="tariffing">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="1 second"/>
+                        <enumeration value="12 seconds"/>
+                        <enumeration value="1 minute"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="startPayment" type="decimal"/>
+        </sequence>
+    </complexType>
+
+</schema>
