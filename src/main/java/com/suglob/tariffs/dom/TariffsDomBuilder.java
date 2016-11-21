@@ -1,9 +1,12 @@
 package com.suglob.tariffs.dom;
 
-import jaxb.CallPrices;
-import jaxb.CallTariff;
-import jaxb.InternetTariff;
-import jaxb.Tariff;
+import com.suglob.tariffs.entityjaxb.CallTariff;
+import com.suglob.tariffs.entityjaxb.InternetTariff;
+import com.suglob.tariffs.entityjaxb.Tariff;
+import com.suglob.tariffs.enums.TariffEnum;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,6 +23,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TariffsDomBuilder {
+
+    public static final Logger LOGGER = LogManager.getLogger(TariffsDomBuilder.class);
+
+    public static final String OPERATOR_NAME="velcom";
+
     private Set<Tariff> tariffs;
     private DocumentBuilder docBuilder;
 
@@ -29,7 +37,7 @@ public class TariffsDomBuilder {
         try {
             docBuilder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            System.err.println("Ошибка конфигурации парсера: " + e);
+            LOGGER.log(Level.ERROR, "Dom Parser Configuration error",e);
         }
     }
 
@@ -42,69 +50,71 @@ public class TariffsDomBuilder {
         try {
             doc = docBuilder.parse(fileName);
             Element root = doc.getDocumentElement();
-            NodeList internetTariffList = root.getElementsByTagName("internetTariff");
+            NodeList internetTariffList = root.getElementsByTagName(TariffEnum.INTERNETTARIFF.getValue());
             for (int i = 0; i < internetTariffList.getLength(); i++) {
                 Element tariffElement = (Element) internetTariffList.item(i);
                 InternetTariff tariff = buildInternetTariff(tariffElement);
+                LOGGER.log(Level.INFO,tariff.toString());
                 tariffs.add(tariff);
             }
-            NodeList callTariffList = root.getElementsByTagName("callTariff");
+            NodeList callTariffList = root.getElementsByTagName(TariffEnum.CALLTARIFF.getValue());
             for (int i = 0; i < callTariffList.getLength(); i++) {
                 Element tariffElement = (Element) callTariffList.item(i);
                 CallTariff tariff = buildCallTariff(tariffElement);
+                LOGGER.log(Level.INFO,tariff.toString());
                 tariffs.add(tariff);
             }
         } catch (IOException e) {
-            System.err.println("File error or I/O error: " + e);
+            LOGGER.log(Level.ERROR, "File error or I/O error: " ,e);
         } catch (SAXException e) {
-            System.err.println("Parsing failure: " + e);
+            LOGGER.log(Level.ERROR, "Parsing failure: " ,e);
         }
     }
 
     private InternetTariff buildInternetTariff(Element tariffElement) {
         InternetTariff internetTariff = new InternetTariff();
-        if (tariffElement.getAttribute("operatorName") != "") {
-            internetTariff.setOperatorName(tariffElement.getAttribute("operatorName"));
+        if (tariffElement.getAttribute(TariffEnum.OPERATORNAME.getValue()) != "") {
+            internetTariff.setOperatorName(tariffElement.getAttribute(TariffEnum.OPERATORNAME.getValue()));
         } else {
-            internetTariff.setOperatorName("velcom");
+            internetTariff.setOperatorName(OPERATOR_NAME);
         }
-        if (tariffElement.getAttribute("rounding") != "") {
-            internetTariff.setRounding(new BigInteger(tariffElement.getAttribute("rounding")));
+        if (tariffElement.getAttribute(TariffEnum.ROUNDING.getValue()) != "") {
+            internetTariff.setRounding(new BigInteger(tariffElement.getAttribute(TariffEnum.ROUNDING.getValue())));
         }
-        internetTariff.setName(getElementTextContent(tariffElement, "name"));
-        internetTariff.setPayroll(new BigDecimal(getElementTextContent(tariffElement, "payroll")));
-        internetTariff.setTraffic(new BigInteger(getElementTextContent(tariffElement, "traffic")));
+        internetTariff.setName(getElementTextContent(tariffElement, TariffEnum.NAME.getValue()));
+        internetTariff.setPayroll(new BigDecimal(getElementTextContent(tariffElement, TariffEnum.PAYROLL.getValue())));
+        internetTariff.setTraffic(new BigInteger(getElementTextContent(tariffElement, TariffEnum.TRAFFIC.getValue())));
         internetTariff.setPriceUpperTraffic(new BigDecimal(
-                getElementTextContent(tariffElement, "priceUpperTraffic")));
+                getElementTextContent(tariffElement, TariffEnum.PRICEUPPERTRAFFIC.getValue())));
         return internetTariff;
     }
 
     private CallTariff buildCallTariff(Element tariffElement) {
         CallTariff callTariff=new CallTariff();
-        if (tariffElement.getAttribute("operatorName") != "") {
-            callTariff.setOperatorName(tariffElement.getAttribute("operatorName"));
+        if (tariffElement.getAttribute(TariffEnum.OPERATORNAME.getValue()) != "") {
+            callTariff.setOperatorName(tariffElement.getAttribute(TariffEnum.OPERATORNAME.getValue()));
         } else {
-            callTariff.setOperatorName("velcom");
+            callTariff.setOperatorName(OPERATOR_NAME);
         }
-        callTariff.setName(getElementTextContent(tariffElement, "name"));
-        callTariff.setPayroll(new BigDecimal(getElementTextContent(tariffElement, "payroll")));
-        callTariff.setSmsPrice(new BigDecimal(getElementTextContent(tariffElement, "smsPrice")));
-        callTariff.setFreeMinutes(new BigInteger(getElementTextContent(tariffElement, "freeMinutes")));
+        callTariff.setName(getElementTextContent(tariffElement, TariffEnum.NAME.getValue()));
+        callTariff.setPayroll(new BigDecimal(getElementTextContent(tariffElement, TariffEnum.PAYROLL.getValue())));
+        callTariff.setSmsPrice(new BigDecimal(getElementTextContent(tariffElement, TariffEnum.SMSPRICE.getValue())));
+        callTariff.setFreeMinutes(new BigInteger(getElementTextContent(tariffElement, TariffEnum.FREEMINUTES.getValue())));
 
-        Element callPricesElement=(Element)tariffElement.getElementsByTagName("callPrices").item(0);
+        Element callPricesElement=(Element)tariffElement.getElementsByTagName(TariffEnum.CALLPRICES.getValue()).item(0);
         callTariff.getCallPrices().setInsidePrice(new BigDecimal(
-                getElementTextContent(callPricesElement, "insidePrice")));
+                getElementTextContent(callPricesElement, TariffEnum.INSIDEPRICE.getValue())));
         callTariff.getCallPrices().setOutsidePrice(new BigDecimal(
-                getElementTextContent(callPricesElement, "outsidePrice")));
+                getElementTextContent(callPricesElement, TariffEnum.OUTSIDEPRICE.getValue())));
         callTariff.getCallPrices().setStationaryPrice(new BigDecimal(
-                getElementTextContent(callPricesElement, "stationaryPrice")));
+                getElementTextContent(callPricesElement, TariffEnum.STATIONARYPRICE.getValue())));
 
-        Element parametersElement=(Element)tariffElement.getElementsByTagName("parameters").item(0);
+        Element parametersElement=(Element)tariffElement.getElementsByTagName(TariffEnum.PARAMETERS.getValue()).item(0);
         callTariff.getParameters().setCountFavoriteNumbers(new BigInteger(
-                getElementTextContent(parametersElement,"countFavoriteNumbers")));
+                getElementTextContent(parametersElement,TariffEnum.COUNTFAVORITENUMBERS.getValue())));
         callTariff.getParameters().setStartPayment(new BigDecimal(
-                getElementTextContent(parametersElement,"startPayment")));
-        callTariff.getParameters().setTariffing(getElementTextContent(parametersElement, "tariffing"));
+                getElementTextContent(parametersElement,TariffEnum.STARTPAYMENT.getValue())));
+        callTariff.getParameters().setTariffing(getElementTextContent(parametersElement, TariffEnum.TARIFFING.getValue()));
 
         return callTariff;
     }

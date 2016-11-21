@@ -1,5 +1,5 @@
 
-package jaxb;
+package com.suglob.tariffs.entityjaxb;
 
 import java.util.ArrayList;
 import java.util.List;

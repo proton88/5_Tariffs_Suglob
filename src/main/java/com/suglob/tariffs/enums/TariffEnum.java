@@ -1,4 +1,4 @@
-package com.suglob.tariffs.sax;
+package com.suglob.tariffs.enums;
 
 public enum TariffEnum {
     TARIFFS("tariffs"),

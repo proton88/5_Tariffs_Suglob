@@ -1,5 +1,5 @@
 
-package jaxb;
+package com.suglob.tariffs.entityjaxb;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

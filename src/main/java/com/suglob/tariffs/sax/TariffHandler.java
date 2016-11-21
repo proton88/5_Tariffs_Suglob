@@ -1,10 +1,13 @@
 package com.suglob.tariffs.sax;
 
-import jaxb.CallTariff;
-import jaxb.InternetTariff;
-import jaxb.Tariff;
+import com.suglob.tariffs.entityjaxb.CallTariff;
+import com.suglob.tariffs.entityjaxb.InternetTariff;
+import com.suglob.tariffs.entityjaxb.Tariff;
+import com.suglob.tariffs.enums.TariffEnum;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.math.BigDecimal;
@@ -14,6 +17,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TariffHandler extends DefaultHandler {
+    public static final Logger LOGGER = LogManager.getLogger(TariffHandler.class);
+
+    public static final String OPERATOR_NAME="velcom";
+
     private Set<Tariff> tariffs;
     private InternetTariff currentInternetTariff = null;
     private CallTariff currentCallTariff = null;
@@ -30,31 +37,24 @@ public class TariffHandler extends DefaultHandler {
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attrs) {
-        int i=attrs.getIndex("operatorName");
-        int j=attrs.getIndex("rounding");
-        if ("internetTariff".equals(localName)) {
+        int i=attrs.getIndex(TariffEnum.OPERATORNAME.getValue());
+        int j=attrs.getIndex(TariffEnum.ROUNDING.getValue());
+        if (TariffEnum.INTERNETTARIFF.getValue().equals(localName)) {
             currentInternetTariff = new InternetTariff();
             if (i!=-1){
                 currentInternetTariff.setOperatorName(attrs.getValue(i));
             }else{
-                currentInternetTariff.setOperatorName("velcom");
+                currentInternetTariff.setOperatorName(OPERATOR_NAME);
             }
             if (j!=-1) {
                 currentInternetTariff.setRounding(new BigInteger(attrs.getValue(j)));
             }
-            /*if (attrs.getLocalName(0).equals("operatorName")) {// NOT RELY
-                currentInternetTariff.setOperatorName(attrs.getValue(0));
-                currentInternetTariff.setRounding(new BigInteger(attrs.getValue(1)));
-            } else {
-                currentInternetTariff.setOperatorName(attrs.getValue(1));
-                currentInternetTariff.setRounding(new BigInteger(attrs.getValue(0)));
-            }*/
-        } else if ("callTariff".equals(localName)) {
+        } else if (TariffEnum.CALLTARIFF.getValue().equals(localName)) {
             currentCallTariff = new CallTariff();
             if (i!=-1){
                 currentCallTariff.setOperatorName(attrs.getValue(i));
             }else{
-                currentCallTariff.setOperatorName("velcom");
+                currentCallTariff.setOperatorName(OPERATOR_NAME);
             }
         } else {
             TariffEnum temp = TariffEnum.valueOf(localName.toUpperCase());
@@ -66,11 +66,13 @@ public class TariffHandler extends DefaultHandler {
     }
 
     public void endElement(String uri, String localName, String qName) {
-        if ("internetTariff".equals(localName)) {
+        if (TariffEnum.INTERNETTARIFF.getValue().equals(localName)) {
+            LOGGER.log(Level.INFO,currentInternetTariff.toString());
             tariffs.add(currentInternetTariff);
             currentInternetTariff=null;
         }
-        if ("callTariff".equals(localName)) {
+        if (TariffEnum.CALLTARIFF.getValue().equals(localName)) {
+            LOGGER.log(Level.INFO,currentCallTariff.toString());
             tariffs.add(currentCallTariff);
             currentCallTariff=null;
         }
@@ -124,7 +126,8 @@ public class TariffHandler extends DefaultHandler {
                 case PRICEUPPERTRAFFIC:
                     currentInternetTariff.setPriceUpperTraffic(new BigDecimal(s));
                     break;
-                default: //////////////////////////////////////////////// myException
+                default:
+                    LOGGER.log(Level.ERROR,"Wrong tag name in xml: "+currentEnum.getValue());
                     throw new EnumConstantNotPresentException(
                             currentEnum.getDeclaringClass(), currentEnum.name());
             }
