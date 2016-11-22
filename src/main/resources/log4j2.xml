@@ -10,7 +10,7 @@
             <PatternLayout pattern = "${pattern}"/>
         </Console>
         <RollingFile name = "Rolling" fileName = "logs/log.txt" append = "true"
-                     filePattern = "logs/log-%d{dd.MM.yyyy}.txt">
+                     filePattern = "logs/log-%d{dd.MM.yy_HH_mm}.txt">
             <PatternLayout pattern = "${pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy />
